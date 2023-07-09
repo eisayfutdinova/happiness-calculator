@@ -1,10 +1,10 @@
 import './App.css'
 import {useCallback, useState} from "react";
-import {History} from "./happinessHistory/History";
+import {History} from "./components/happinessHistory/History";
 import {useHistory} from "./hook/useHistory";
 import {countHappiness} from "./utils/countHappiness";
 import {useMetricSystem} from "./hook/useScale";
-import ToggleSwitch from "./toggleSwitch/ToggleSwitch";
+import ToggleSwitch from "./components/toggleSwitch/ToggleSwitch";
 
 function App() {
     const [sex, setSex] = useState<0 | 1>(0);
@@ -35,30 +35,48 @@ function App() {
     return (
         <div className={'container'}>
             <h2 className={'title'}>Happiness calculator</h2>
-            <div style={{marginBottom: '12px', alignSelf: 'end'}}>
+            <div className={'toggle'}>
                 <ToggleSwitch label={'Imperial system'} checked={!isMetricSystem} onChange={onMetricSystemChange}/>
             </div>
             {error && <div className={'error'}>{error}</div>}
-            <select name="sex" id="sex" value={sex}
-                    onChange={(e) => setSex((e.target as unknown as HTMLTextAreaElement)?.value as unknown as 0 | 1)}>
-                <option value={0}>male</option>
-                <option value={1}>female</option>
-            </select>
-            <input placeholder={`weight(${isMetricSystem ? 'kg' : 'pounds'})`} type={"number"} value={weight || ''}
-                   onInput={(e) => {
-                       setError('');
-                       setWeight(+(e.target as unknown as HTMLTextAreaElement)?.value)
-                   }}/>
-            <input placeholder={'age'} type={"number"} value={age || ''} onInput={(e) => {
-                setError('');
-                setAge(+(e.target as unknown as HTMLTextAreaElement)?.value)
-            }}/>
-            <input placeholder={`height(${isMetricSystem ? 'sm' : 'foot'})`} type={"number"} value={height || ''}
+            <div className={'input-form'}>
+                <label>Sex</label>
+                <select name="sex" id="sex" value={sex}
+                        onChange={(e) => setSex((e.target as unknown as HTMLTextAreaElement)?.value as unknown as 0 | 1)}>
+                    <option value={0}>male</option>
+                    <option value={1}>female</option>
+                </select>
+            </div>
+            <div className={'input-form'}>
+                <label>Weight</label>
+                <input placeholder={`weight(${isMetricSystem ? 'kg' : 'pounds'})`}
+                       type={"number"}
+                       value={weight || ''}
+                       onInput={(e) => {
+                           setError('');
+                           setWeight(+(e.target as unknown as HTMLTextAreaElement)?.value)
+                       }}/>
+            </div>
+            <div className={'input-form'}>
+                <label>Age</label>
+                <input placeholder={'age'}
+                       type={"number"}
+                       value={age || ''}
+                       onInput={(e) => {
+                           setError('');
+                           setAge(+(e.target as unknown as HTMLTextAreaElement)?.value)
+                       }}/>
+            </div>
+            <div className={'input-form'}>
+                <label>Height</label>
+            <input placeholder={`height(${isMetricSystem ? 'cm' : 'foot'})`}
+                   type={"number"} value={height || ''}
                    onInput={(e) => {
                        setError('');
                        setHeight(+(e.target as unknown as HTMLTextAreaElement)?.value)
                    }}/>
-            <button id={'countButton'} onClick={onCount}>Count my happiness</button>
+            </div>
+            <button id={'countButton'} className={'count-button'} onClick={onCount}>Count my happiness</button>
             {happiness && !error?.length &&
                 <div id={'result'} className={'result'}>Your happiness is {happiness}</div>
             }

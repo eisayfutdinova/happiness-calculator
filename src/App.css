@@ -13,6 +13,18 @@
   margin: auto;
 }
 
+.toggle {
+  align-self: end;
+}
+
+.input-form {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
 .title {
   text-align: center;
   font-family: Montserrat, serif;
@@ -24,8 +36,7 @@
 }
 
 input {
-  margin-bottom: 12px;
-  padding-left: 12px;
+  text-indent: 10px;
   height: 32px;
   border-radius: 4px;
   border: none;
@@ -33,25 +44,20 @@ input {
   color: #252424;
   font-family: SF Pro Text, serif;
   font-size: 14px;
-  font-style: normal;
   font-weight: 400;
-  line-height: 127%;
+  width: 100%;
 }
 
 select {
-  height: 38px;
-  padding-left: 12px;
-  margin-bottom: 12px;
+  text-indent: 10px;
+  height: 34px;
   background: #FFF;
   color: #252424;
   border-radius: 4px;
   border: none;
   position: relative;
-  font-family: SF Pro Text, serif;
   font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 127%;
+  width: 100%;
 }
 
 option {
@@ -62,7 +68,11 @@ option {
 
 .error {
   color: #8a0505;
-  padding: 4px;
+  margin-top: 4px;
+}
+
+.count-button {
+  margin-top: 12px;
 }
 
 .result {

@@ -1,6 +1,6 @@
 import {useMemo} from 'react';
 import {Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
-import {Happiness} from "../hook/useHistory";
+import {Happiness} from "../../hook/useHistory";
 
 export const History = ({happinessHistory, onClear}: { happinessHistory: Happiness[], onClear: () => void }) => {
     const {data, min, max} = useMemo(() => {
