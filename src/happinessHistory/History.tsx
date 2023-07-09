@@ -16,7 +16,7 @@ export const History = ({happinessHistory, onClear}: { happinessHistory: Happine
 
     if (!happinessHistory.length) {
         return (
-            <div>No history yet!</div>
+            <div>No history yet! 🫢</div>
         )
     }
 
