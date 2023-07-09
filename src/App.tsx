@@ -49,7 +49,7 @@ function App() {
             </div>
             <div className={'input-form'}>
                 <label>Weight</label>
-                <input placeholder={`weight(${isMetricSystem ? 'kg' : 'pounds'})`}
+                <input placeholder={`weight (${isMetricSystem ? 'kg' : 'pounds'})`}
                        type={"number"}
                        value={weight || ''}
                        onInput={(e) => {
@@ -69,7 +69,7 @@ function App() {
             </div>
             <div className={'input-form'}>
                 <label>Height</label>
-            <input placeholder={`height(${isMetricSystem ? 'cm' : 'foot'})`}
+            <input placeholder={`height (${isMetricSystem ? 'cm' : 'foot'})`}
                    type={"number"} value={height || ''}
                    onInput={(e) => {
                        setError('');
