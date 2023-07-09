@@ -1,9 +1,11 @@
 import "./ToggleSwitch.css";
 
-const ToggleSwitch = ({ label, checked, onChange }) => {
+const ToggleSwitch = ({ label, checked, onChange }: {label?: string, checked: boolean, onChange: () => void}) => {
     return (
         <div className="toggle">
-            {label}{" "}
+            <div className={'label'}>
+                {label}
+            </div>
             <div className="toggle-switch">
                 <input type="checkbox" checked={checked}
                        onChange={onChange}

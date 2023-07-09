@@ -1,6 +1,14 @@
-.container {
-  text-align: center;
+.toggle {
+  display: flex;
+  align-items: baseline;
 }
+
+.label {
+  margin-right: 8px;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+
 .toggle-switch {
   position: relative;
   width: 55px;
@@ -65,5 +73,5 @@
   margin-left: 0;
 }
 .checkbox:checked + .label .switch {
-  right: 0px;
+  right: 10px;
 }

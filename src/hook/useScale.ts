@@ -5,14 +5,14 @@ export function useMetricSystem() {
 
     useEffect(() => {
         const savedScale = localStorage.getItem('isMetricSystem');
-        if (savedScale !== 'null') {
+        if (savedScale !== null) {
             setIsMetricSystem(JSON.parse(savedScale));
         }
     }, [setIsMetricSystem]);
 
     const onChange = useCallback(() => {
         setIsMetricSystem(!isMetricSystem);
-        localStorage.setItem('isMetricSystem', JSON.stringify(isMetricSystem));
+        localStorage.setItem('isMetricSystem', JSON.stringify(!isMetricSystem));
     }, [setIsMetricSystem, isMetricSystem]);
 
     return {
