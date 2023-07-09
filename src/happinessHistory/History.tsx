@@ -23,14 +23,14 @@ export const History = ({happinessHistory, onClear}: { happinessHistory: Happine
     return (
         <div>
             <ResponsiveContainer width={'98%'} height={300}>
-                <LineChart data={data}>
+                <LineChart data={data} overflow={'visible'}>
                     <XAxis dataKey="date"/>
                     <YAxis type="number" padding={{top: 50, bottom: 30}} interval={0} domain={[min, max]}/>
                     <Tooltip/>
                     <Line type="monotone" dataKey="happiness" stroke="#8884d8"/>
                 </LineChart>
             </ResponsiveContainer>
-            <div className={'history'} onClick={onClear}>Clear history</div>
+            <div className={'clear-history'} onClick={onClear}>Clear history</div>
         </div>
     )
 };

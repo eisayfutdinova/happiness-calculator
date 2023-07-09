@@ -25,5 +25,5 @@ export function useHistory() {
         localStorage.removeItem('happiness');
     };
 
-    return {happinessHistory, onChange, onClear}
+    return {happinessHistory, onHistoryChange: onChange, onClear}
 }

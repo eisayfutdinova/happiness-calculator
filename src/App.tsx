@@ -3,6 +3,7 @@ import {useCallback, useState} from "react";
 import {History} from "./happinessHistory/History";
 import {useHistory} from "./hook/useHistory";
 import {countHappiness} from "./utils/countHappiness";
+import Confetti from "./confetti/Confetti";
 
 function App() {
     const [sex, setSex] = useState<0 | 1>(0);
@@ -11,8 +12,9 @@ function App() {
     const [height, setHeight] = useState<number>();
     const [happiness, setHappiness] = useState<number>();
     const [error, setError] = useState<string>('');
+
     const [showHistory, setShowHistory] = useState(false);
-    const {happinessHistory, onChange, onClear} = useHistory();
+    const {happinessHistory, onHistoryChange, onClear} = useHistory();
 
     const onCount = useCallback(() => {
         if (!weight || !age || !height) {
@@ -25,12 +27,12 @@ function App() {
             date: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
         };
         setHappiness(result.value);
-        onChange(result);
-    }, [weight, age, height, setError, countHappiness, setHappiness, onChange]);
+        onHistoryChange(result);
+    }, [weight, age, height, setError, countHappiness, setHappiness, onHistoryChange]);
 
     return (
         <div className={'container'}>
-            <h2>Happiness calculator</h2>
+            <h2 className={'title'}>Happiness calculator</h2>
             {error && <div className={'error'}>{error}</div>}
             <select name="sex" id="sex" value={sex} onChange={(e) => setSex((e.target as unknown as HTMLTextAreaElement)?.value as unknown as 0 | 1)}>
                 <option value={0}>male</option>
@@ -48,9 +50,12 @@ function App() {
                 setError('');
                 setHeight(+(e.target as unknown as HTMLTextAreaElement)?.value)
             }}/>
-            <button onClick={onCount}>Count my happiness</button>
+            <button id={'countButton'} onClick={onCount}>Count my happiness</button>
             {happiness && !error?.length &&
-                <div className={'result'}>Your happiness is {happiness}</div>
+                <div id={'result'} className={'result'}>Your happiness is {happiness}</div>
+            }
+            {happiness && !error?.length &&
+                <Confetti/>
             }
             <div className={'history'}
                  onClick={() => setShowHistory(!showHistory)}>{showHistory ? 'Hide' : 'Show'} history
