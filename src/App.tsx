@@ -32,21 +32,21 @@ function App() {
         <div className={'container'}>
             <h2>Happiness calculator</h2>
             {error && <div className={'error'}>{error}</div>}
-            <select name="sex" id="sex" value={sex} onChange={(e) => setSex(e.target?.value)}>
+            <select name="sex" id="sex" value={sex} onChange={(e) => setSex((e.target as HTMLTextAreaElement)?.value as 0 | 1)}>
                 <option value={0}>male</option>
                 <option value={1}>female</option>
             </select>
             <input placeholder={'weight'} type={"number"} value={weight || ''} onInput={(e) => {
                 setError('');
-                setWeight(e.target?.value)
+                setWeight(+(e.target as HTMLTextAreaElement)?.value)
             }}/>
             <input placeholder={'age'} type={"number"} value={age || ''} onInput={(e) => {
                 setError('');
-                setAge(e.target?.value)
+                setAge(+(e.target as HTMLTextAreaElement)?.value)
             }}/>
             <input placeholder={'height'} type={"number"} value={height || ''} onInput={(e) => {
                 setError('');
-                setHeight(e.target?.value)
+                setHeight(+(e.target as HTMLTextAreaElement)?.value)
             }}/>
             <button onClick={onCount}>Count my happiness</button>
             {happiness && !error?.length &&
