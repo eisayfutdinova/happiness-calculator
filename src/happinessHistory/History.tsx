@@ -21,9 +21,9 @@ export const History = ({happinessHistory, onClear}: { happinessHistory: Happine
     }
 
     return (
-        <div>
+        <div className={'history-container'}>
             <ResponsiveContainer width={'98%'} height={300}>
-                <LineChart data={data} overflow={'visible'}>
+                <LineChart data={data}>
                     <XAxis dataKey="date"/>
                     <YAxis type="number" padding={{top: 50, bottom: 30}} interval={0} domain={[min, max]}/>
                     <Tooltip/>

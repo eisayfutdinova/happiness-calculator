@@ -3,7 +3,6 @@ import {useCallback, useState} from "react";
 import {History} from "./happinessHistory/History";
 import {useHistory} from "./hook/useHistory";
 import {countHappiness} from "./utils/countHappiness";
-import Confetti from "./confetti/Confetti";
 
 function App() {
     const [sex, setSex] = useState<0 | 1>(0);
@@ -53,9 +52,6 @@ function App() {
             <button id={'countButton'} onClick={onCount}>Count my happiness</button>
             {happiness && !error?.length &&
                 <div id={'result'} className={'result'}>Your happiness is {happiness}</div>
-            }
-            {happiness && !error?.length &&
-                <Confetti/>
             }
             <div className={'history'}
                  onClick={() => setShowHistory(!showHistory)}>{showHistory ? 'Hide' : 'Show'} history

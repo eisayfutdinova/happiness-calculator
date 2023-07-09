@@ -5,7 +5,7 @@ import ReactCanvasConfetti from 'react-canvas-confetti';
 export default function Confetti() {
     const refAnimationInstance = useRef(null);
 
-    const getInstance = useCallback(instance => {
+    const getInstance = useCallback((instance) => {
         refAnimationInstance.current = instance;
     }, []);
 
