@@ -29,6 +29,7 @@ button {
   font-family: inherit;
   background-color: #e64682;
   cursor: pointer;
+  color: #FFFFFF;
   transition: border-color 0.25s;
 }
 button:focus,

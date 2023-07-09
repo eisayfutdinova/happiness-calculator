@@ -25,7 +25,7 @@ export const History = ({happinessHistory, onClear}: { happinessHistory: Happine
             <ResponsiveContainer width={'98%'} height={300}>
                 <LineChart data={data}>
                     <XAxis dataKey="date"/>
-                    <YAxis type="number" padding={{top: 50, bottom: 30}} interval={0} domain={[min, max]}/>
+                    <YAxis tick={{ fontSize: 11,width: 250}} type="number" padding={{top: 50, bottom: 30}} interval={0} domain={[min, max]}/>
                     <Tooltip/>
                     <Line type="monotone" dataKey="happiness" stroke="#8884d8"/>
                 </LineChart>
