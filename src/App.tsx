@@ -1,36 +1,37 @@
 import './App.css'
 import {useCallback, useState} from "react";
 import {History} from "./components/happinessHistory/History";
-import {useHistory} from "./hook/useHistory";
-import {countHappiness} from "./utils/countHappiness";
+import {Happiness, useHistory} from "./hook/useHistory";
+import {useCount} from "./hook/useCountHappiness";
 import {useMetricSystem} from "./hook/useScale";
 import ToggleSwitch from "./components/toggleSwitch/ToggleSwitch";
+import {Parameter} from "./components/parameterForm/Parameter";
+import {formElements} from "./utils/formElements";
 
 function App() {
-    const [sex, setSex] = useState<0 | 1>(0);
     const {isMetricSystem, onMetricSystemChange} = useMetricSystem();
-    const [weight, setWeight] = useState<number>(0);
-    const [age, setAge] = useState<number>();
-    const [height, setHeight] = useState<number>();
     const [happiness, setHappiness] = useState<number>();
-    const [error, setError] = useState<string>('');
+    const [error, setError] = useState('');
+    const {result, isError} = useCount({transformEnabled: !isMetricSystem});
 
     const [showHistory, setShowHistory] = useState(false);
     const {happinessHistory, onHistoryChange, onClear} = useHistory();
 
     const onCount = useCallback(() => {
-        if (!weight || !age || !height) {
+        if (isError) {
             setError('Oops! All fields should be filled');
             return;
         }
+        setError('');
+
         const date = new Date();
-        const result = {
-            value: countHappiness({sex, height, age, weight, isMetricSystem}),
+        const happy = {
+            value: result,
             date: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
         };
-        setHappiness(result.value);
-        onHistoryChange(result);
-    }, [weight, age, height, setError, countHappiness, setHappiness, onHistoryChange]);
+        setHappiness(result);
+        onHistoryChange(happy as Happiness);
+    }, [result, setHappiness, setError, onHistoryChange, isError]);
 
     return (
         <div className={'container'}>
@@ -39,45 +40,21 @@ function App() {
                 <ToggleSwitch label={'Imperial system'} checked={!isMetricSystem} onChange={onMetricSystemChange}/>
             </div>
             {error && <div className={'error'}>{error}</div>}
-            <div className={'input-form'}>
-                <label>Sex</label>
-                <select name="sex" id="sex" value={sex}
-                        onChange={(e) => setSex((e.target as unknown as HTMLTextAreaElement)?.value as unknown as 0 | 1)}>
-                    <option value={0}>male</option>
-                    <option value={1}>female</option>
-                </select>
-            </div>
-            <div className={'input-form'}>
-                <label>Weight</label>
-                <input placeholder={`weight (${isMetricSystem ? 'kg' : 'pounds'})`}
-                       type={"number"}
-                       value={weight || ''}
-                       onInput={(e) => {
-                           setError('');
-                           setWeight(+(e.target as unknown as HTMLTextAreaElement)?.value)
-                       }}/>
-            </div>
-            <div className={'input-form'}>
-                <label>Age</label>
-                <input placeholder={'age'}
-                       type={"number"}
-                       value={age || ''}
-                       onInput={(e) => {
-                           setError('');
-                           setAge(+(e.target as unknown as HTMLTextAreaElement)?.value)
-                       }}/>
-            </div>
-            <div className={'input-form'}>
-                <label>Height</label>
-            <input placeholder={`height (${isMetricSystem ? 'cm' : 'foot'})`}
-                   type={"number"} value={height || ''}
-                   onInput={(e) => {
-                       setError('');
-                       setHeight(+(e.target as unknown as HTMLTextAreaElement)?.value)
-                   }}/>
-            </div>
+            {
+                formElements?.map(item => {
+                    return (
+                        <Parameter label={item.name}
+                                   elementType={item.elementType}
+                                   type={item.type}
+                                   parameterKey={item.key}
+                                   key={item.key}
+                                   isTransformed={item.isTransformed}
+                                   options={item.options} />
+                    )
+                })
+            }
             <button id={'countButton'} className={'count-button'} onClick={onCount}>Count my happiness</button>
-            {happiness && !error?.length &&
+            {happiness &&
                 <div id={'result'} className={'result'}>Your happiness is {happiness}</div>
             }
             <div className={'history'}
