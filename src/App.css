@@ -45,7 +45,7 @@ input {
   font-family: SF Pro Text, serif;
   font-size: 14px;
   font-weight: 400;
-  width: 100%;
+  width: calc(100% - 4px);
 }
 
 select {
