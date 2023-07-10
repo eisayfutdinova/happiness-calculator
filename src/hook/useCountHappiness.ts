@@ -36,17 +36,19 @@ export const useCount = ({transformEnabled}: { transformEnabled: boolean }) => {
 
 
     return useMemo(() => {
+        const result = Object.keys(paramValues)
+            .map(paramKey => {
+                //looking for the necessary element by key to take its coefficient and transformFunc
+                const item = formElements.find(formElement => formElement.key === paramKey);
+                if (!item) {
+                    return paramValues[paramKey];
+                }
+                const value = transformEnabled ? item?.transform(paramValues[paramKey]) : paramValues[paramKey]
+                return value * item?.weight
+            })?.reduce((total, item) => total + item, 0)
+            .toFixed(3);
         return {
-            result: Object.keys(paramValues)
-                .map(paramKey => {
-                    //looking for the necessary element by key to take its coefficient and transformFunc
-                    const item = formElements.find(formElement => formElement.key === paramKey);
-                    if (!item) {
-                        return paramValues[paramKey];
-                    }
-                    const value = transformEnabled ? item?.transform(paramValues[paramKey]) : paramValues[paramKey]
-                    return value * item?.weight
-                })?.reduce((total, item) => total + item, 0),
+            result: +result,
             isError: Object.values(paramValues)?.find(value => value === 0) !== undefined
         }
     }, [paramValues, formElements, transformEnabled])
