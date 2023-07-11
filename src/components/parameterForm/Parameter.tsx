@@ -1,5 +1,6 @@
 export const Parameter = ({label, type, parameterKey, options, elementType, handleChange}:
-                              { label: string, elementType: 'select' | 'input', type: string, parameterKey: string, options: { value: number, name: string }[], isTransformed?: boolean, handleChange: (e) => void }) => {
+                              { label: string, elementType: 'select' | 'input', type: string, parameterKey: string, options: { value: number, name: string }[], isTransformed?: boolean,
+                                  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> | undefined) => void }) => {
 
     return (
         <div className={'input-form'}>

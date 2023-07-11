@@ -12,10 +12,10 @@ export const useCount = ({transformEnabled}: { transformEnabled: boolean }) => {
         setParamValues(initialParamValues);
     }, [formElements, setParamValues]);
 
-    const handleChange = useCallback((e, itemKey) => {
+    const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> | undefined, itemKey: string) => {
       setParamValues({
           ...paramValues,
-          [itemKey]: +(e.target as unknown as HTMLTextAreaElement).value,
+          [itemKey]: +(e?.target as unknown as HTMLTextAreaElement).value,
       })
     }, [setParamValues, paramValues]);
 
