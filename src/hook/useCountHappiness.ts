@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import {formElements} from "../utils/formElements";
 
 export const useCount = ({transformEnabled}: { transformEnabled: boolean }) => {
@@ -12,27 +12,12 @@ export const useCount = ({transformEnabled}: { transformEnabled: boolean }) => {
         setParamValues(initialParamValues);
     }, [formElements, setParamValues]);
 
-    useEffect(() => {
-        const listener = (e: Event, itemKey: string) => {
-            setParamValues({
-                ...paramValues,
-                [itemKey]: +(e.target as unknown as HTMLTextAreaElement).value
-            })
-        };
-
-        //track changes in input fields
-        formElements.forEach(item => {
-            const element = document.getElementById(item.key);
-            element?.addEventListener('change', (e) => listener(e, item.key))
-        });
-
-        return () => {
-            formElements.forEach((item) => {
-                const element = document.getElementById(item.key);
-                element?.removeEventListener('change', (e) => listener(e, item.key));
-            });
-        };
-    }, [paramValues]);
+    const handleChange = useCallback((e, itemKey) => {
+      setParamValues({
+          ...paramValues,
+          [itemKey]: +(e.target as unknown as HTMLTextAreaElement).value,
+      })
+    }, [setParamValues, paramValues]);
 
 
     return useMemo(() => {
@@ -49,7 +34,8 @@ export const useCount = ({transformEnabled}: { transformEnabled: boolean }) => {
             .toFixed(3);
         return {
             result: +result,
-            isError: Object.values(paramValues)?.find(value => value === 0) !== undefined
+            isError: Object.values(paramValues)?.find(value => value === 0) !== undefined,
+            handleChange
         }
-    }, [paramValues, formElements, transformEnabled])
+    }, [paramValues, formElements, transformEnabled, handleChange])
 };

@@ -12,7 +12,7 @@ function App() {
     const {isMetricSystem, onMetricSystemChange} = useMetricSystem();
     const [happiness, setHappiness] = useState<number>();
     const [error, setError] = useState('');
-    const {result, isError} = useCount({transformEnabled: !isMetricSystem});
+    const {result, isError, handleChange} = useCount({transformEnabled: !isMetricSystem});
 
     const [showHistory, setShowHistory] = useState(false);
     const {happinessHistory, onHistoryChange, onClear} = useHistory();
@@ -49,7 +49,8 @@ function App() {
                                    parameterKey={item.key}
                                    key={item.key}
                                    isTransformed={item.isTransformed}
-                                   options={item.options} />
+                                   options={item.options}
+                                   handleChange={(e) => handleChange(e, item.key)}/>
                     )
                 })
             }
