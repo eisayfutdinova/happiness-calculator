@@ -6,16 +6,18 @@ import {useCount} from "./hook/useCountHappiness";
 import {useMetricSystem} from "./hook/useScale";
 import ToggleSwitch from "./components/toggleSwitch/ToggleSwitch";
 import {Parameter} from "./components/parameterForm/Parameter";
-import {formElements} from "./utils/formElements";
+import * as formElementsJson from './forms/forms.json';
+import {FormInterface} from "./types/types";
 
 function App() {
+    const [formElements] = useState(formElementsJson.forms);
     const {isMetricSystem, onMetricSystemChange} = useMetricSystem();
     const [happiness, setHappiness] = useState<number>();
     const [error, setError] = useState('');
-    const {result, isError, handleChange} = useCount({transformEnabled: !isMetricSystem});
+    const {result, handleChange, isError} = useCount({ formElements: formElements as FormInterface[] });
 
     const [showHistory, setShowHistory] = useState(false);
-    const {happinessHistory, onHistoryChange, onClear} = useHistory();
+    const {happinessHistory, averageHappiness, onHistoryChange, onClear} = useHistory();
 
     const onCount = useCallback(() => {
         if (isError) {
@@ -26,12 +28,12 @@ function App() {
 
         const date = new Date();
         const happy = {
-            value: result,
+            value: +result,
             date: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
         };
-        setHappiness(result);
+        setHappiness(+result.toFixed(3));
         onHistoryChange(happy as Happiness);
-    }, [result, setHappiness, setError, onHistoryChange, isError]);
+    }, [result, setHappiness, setError, onHistoryChange, error, isError]);
 
     return (
         <div className={'container'}>
@@ -40,21 +42,19 @@ function App() {
                 <ToggleSwitch label={'Imperial system'} checked={!isMetricSystem} onChange={onMetricSystemChange}/>
             </div>
             {error && <div className={'error'}>{error}</div>}
-            {
-                formElements?.map(item => {
-                    return (
-                        <Parameter label={item.name}
-                                   elementType={item.elementType}
-                                   type={item.type}
-                                   parameterKey={item.key}
-                                   key={item.key}
-                                   isTransformed={item.isTransformed}
-                                   options={item.options}
-                                   handleChange={(e) => handleChange(e, item.key)}/>
-                    )
-                })
-            }
-            <button id={'countButton'} className={'count-button'} onClick={onCount}>Count my happiness</button>
+                {
+                    formElements?.map(item => {
+                        return (
+                            <Parameter item={item as FormInterface}
+                                       averageHappiness={averageHappiness}
+                                       isMetricSystem={isMetricSystem}
+                                       key={item.key}
+                                       onError={(error) => setError(error)}
+                                       handleChange={(e) => handleChange(e, item.key)}/>
+                        )
+                    })
+                }
+            <button data-testid={'countButton'} disabled={!!error} className={'count-button'} onClick={onCount}>Count my happiness</button>
             {happiness &&
                 <div id={'result'} className={'result'}>Your happiness is {happiness}</div>
             }

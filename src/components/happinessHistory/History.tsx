@@ -7,7 +7,7 @@ export const History = ({happinessHistory, onClear}: { happinessHistory: Happine
         const values = happinessHistory.map(item => item.value);
         return {
             data: happinessHistory.map(item => {
-                return {happiness: item.value, date: item.date}
+                return {happiness: (+item.value).toFixed(2), date: item.date}
             }),
             min: Math.min(...values),
             max: Math.max(...values),

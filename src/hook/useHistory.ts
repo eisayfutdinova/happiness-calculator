@@ -1,4 +1,5 @@
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
+import {average} from "../utils/average";
 
 export interface Happiness {
     value: number,
@@ -7,6 +8,11 @@ export interface Happiness {
 
 export function useHistory() {
     const [happinessHistory, setHappinessHistory] = useState<Happiness[]>([]);
+
+    const averageHappiness = useMemo(() => {
+        const historyValues = happinessHistory.map(happiness => +happiness.value);
+        return historyValues.length ? average(historyValues) : undefined;
+    }, [happinessHistory]);
 
     useEffect(() => {
         const store = localStorage.getItem('happiness');
@@ -25,5 +31,5 @@ export function useHistory() {
         localStorage.removeItem('happiness');
     };
 
-    return {happinessHistory, onHistoryChange: onChange, onClear}
+    return {happinessHistory, onHistoryChange: onChange, onClear, averageHappiness}
 }

@@ -36,3 +36,8 @@ button:focus,
 button:focus-visible {
   outline: 1px auto #ea6d9c;
 }
+button:disabled {
+  color: white;
+  opacity: 0.65;
+  cursor: not-allowed;
+}
